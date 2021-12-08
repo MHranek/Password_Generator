@@ -1,19 +1,3 @@
-// GIVEN I need a new, secure password
-// WHEN I click the button to generate a password
-// X THEN I am presented with a series of prompts for password criteria
-// WHEN prompted for password criteria
-// X THEN I select which criteria to include in the password
-// WHEN prompted for the length of the password
-// X THEN I choose a length of at least 8 characters and no more than 128 characters
-// WHEN asked for character types to include in the password
-// X THEN I confirm whether or not to include lowercase, uppercase, numeric, and/or special characters
-// WHEN I answer each prompt
-// X THEN my input should be validated and at least one character type should be selected
-// WHEN all prompts are answered
-// X THEN a password is generated that matches the selected criteria
-// WHEN the password is generated
-// X THEN the password is either displayed in an alert or written to the page
-
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
@@ -41,13 +25,13 @@ function generatePassword(){
   if (numCharacters != null) {
     var numCharacters = parseInt(numCharacters, 10);
     if (isNaN(numCharacters)) {
-      confirm("Input must be a number.");
+      alert("Input must be a number.");
       return;
     } else if(numCharacters < 8) {
-      confirm("Passwords must be at least 8 characters long.");
+      alert("Passwords must be at least 8 characters long.");
       return;
     } else if(numCharacters > 128) {
-      confirm("Passwords must be no more than 128 characters long.");
+      alert("Passwords must be no more than 128 characters long.");
       return;
     }
   } else {
@@ -124,7 +108,7 @@ function generatePassword(){
     // Combines every index in password array into one string and returns it as the value of the function
     return passwordArray.join("");
   } else {
-    confirm("You must select at least one type of character.");
+    alert("You must select at least one type of character.");
   }
 
   return;
