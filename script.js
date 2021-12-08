@@ -65,32 +65,63 @@ function generatePassword(){
 
   if (wantsUpper || wantsLower || wantsSymbol || wantsNumber) {
     // generate Password
-    // putting all selected characters into one array
-    var totalCharacterSet = [];
 
     var passwordArray = [];
 
-    // Adds uppercase to total array if selected
+    // putting all selected characters into one array (Yields password weighted more towards characters with large arrays ie: alphabet 26 vs numbers 10)
+    // ------------------------------------------------------------------------------------
+    // var totalCharacterSet = [];
+
+    // // Adds uppercase to total array if selected
+    // if (wantsUpper) {
+    //   totalCharacterSet = totalCharacterSet.concat(upperCaseCharacters);
+    // }
+    // // Adds lowercase to total array if selected
+    // if (wantsLower) {
+    //   totalCharacterSet = totalCharacterSet.concat(lowerCaseCharacters);
+    // }
+    // // Adds symbols to total array if selected
+    // if (wantsSymbol) {
+    //   totalCharacterSet = totalCharacterSet.concat(symbolCharacters);
+    // }
+    // // Adds numbers to total array if selected
+    // if (wantsNumber) {
+    //   totalCharacterSet = totalCharacterSet.concat(numberCharacters);
+    // }
+    // // Iterates through each index of password array, adding a random selection from total array
+    // for (var i = 0; i < numCharacters; i++){
+    //   passwordArray.push(totalCharacterSet[getRandomInt(totalCharacterSet.length)]);
+    // }
+    // ------------------------------------------------------------------------------------
+
+    // Selecting characters from an array of arrays (Yields password more consistently distributed, each set of characters should have equal representation on average)
+    // ------------------------------------------------------------------------------------
+    var arrayCharacterArray = [];
+    // adds uppercase array to array of arrays
     if (wantsUpper) {
-      totalCharacterSet = totalCharacterSet.concat(upperCaseCharacters);
+      arrayCharacterArray.push(upperCaseCharacters);
     }
-    // Adds lowercase to total array if selected
+    // adds lowercase array to array of arrays
     if (wantsLower) {
-      totalCharacterSet = totalCharacterSet.concat(lowerCaseCharacters);
+      arrayCharacterArray.push(lowerCaseCharacters);
     }
-    // Adds symbols to total array if selected
+    // adds symbol array to array of arrays
     if (wantsSymbol) {
-      totalCharacterSet = totalCharacterSet.concat(symbolCharacters);
+      arrayCharacterArray.push(symbolCharacters);
     }
-    // Adds numbers to total array if selected
+    // adds number array to array of arrays
     if (wantsNumber) {
-      totalCharacterSet = totalCharacterSet.concat(numberCharacters);
+      arrayCharacterArray.push(numberCharacters);
     }
-
-    for (var i = 0; i < numCharacters; i++){
-      passwordArray.push(totalCharacterSet[getRandomInt(totalCharacterSet.length)]);
+    // Iterates through index of password array, first selecting which array to pull from, then selecting which index of that array to use as the value
+    for (var i = 0; i < numCharacters; i++) {
+      var small = getRandomInt(arrayCharacterArray.length);
+      var large = getRandomInt(arrayCharacterArray[small].length);
+      passwordArray.push(arrayCharacterArray[small][large]);
     }
+    // ------------------------------------------------------------------------------------
 
+    // Combines every index in password array into one string and returns it as the value of the function
     return passwordArray.join("");
   } else {
     confirm("You must select at least one type of character.");
@@ -99,12 +130,50 @@ function generatePassword(){
   return;
 }
 
+
+
 // Write password to the #password input
 function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
+  
+  // Count distribution of characters
+
+  // Geeks for Geeks code
+  // ------------------------------------------------------------------------------------
+  // JavaScript program to count the uppercase,
+  // lowercase, special characters
+  // and numeric values
+
+  // Function to count uppercase, lowercase,
+  // special characters and numbers
+  function Count(str)
+  {
+    var upper = 0,
+      lower = 0,
+      number = 0,
+      special = 0;
+    for (var i = 0; i < str.length; i++)
+    {
+      if (str[i] >= "A" && str[i] <= "Z") upper++;
+      else if (str[i] >= "a" && str[i] <= "z") lower++;
+      else if (str[i] >= "0" && str[i] <= "9") number++;
+      else special++;
+    }
+    console.log("Upper case letters: " + upper);
+    console.log("Lower case letters : " + lower);
+    console.log("Number : " + number);
+    console.log("Special characters : " + special);
+  }
+
+  // Driver function
+  var str = password;
+  Count(str);
+    
+  // This code is contributed by rdtank.
+  // ------------------------------------------------------------------------------------
 
 }
 
