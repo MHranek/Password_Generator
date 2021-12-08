@@ -10,3 +10,5 @@ Click the 'Generate Password' button and follow the steps in the prompts. After 
 ![password generator screenshot](./password_generator_screenshot.png)
 ## Credits
 https://www.geeksforgeeks.org/count-uppercase-lowercase-special-character-numeric-values/ This chunk of code allowed me to test the two different methods of creating the random password. It showed that the implemented way more consistently gives each set of characters representation.
+
+https://www.w3schools.com/js/js_array_sort.asp The Fisher Yates Method of randomly sorting the content of an array. This allowed me to guarantee having at least one character from each selected set of characters, while not causing patterns to arise (ie: first character always uppper, second always lower, etc.)

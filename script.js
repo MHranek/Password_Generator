@@ -52,8 +52,8 @@ function generatePassword(){
 
     var passwordArray = [];
 
-    // putting all selected characters into one array (Yields password weighted more towards characters with large arrays ie: alphabet 26 vs numbers 10)
     // ------------------------------------------------------------------------------------
+    // putting all selected characters into one array (Yields password weighted more towards characters with large arrays ie: alphabet has 26 values vs numbers has 10 values)
     // var totalCharacterSet = [];
 
     // // Adds uppercase to total array if selected
@@ -78,30 +78,53 @@ function generatePassword(){
     // }
     // ------------------------------------------------------------------------------------
 
-    // Selecting characters from an array of arrays (Yields password more consistently distributed, each set of characters should have equal representation on average)
+
     // ------------------------------------------------------------------------------------
+    // Selecting characters from an array of arrays (Yields more consistently distributed password, each set of characters should have equal representation on average)
     var arrayCharacterArray = [];
     // adds uppercase array to array of arrays
     if (wantsUpper) {
       arrayCharacterArray.push(upperCaseCharacters);
+      // Adds one upper case character to the array (if selected)
+      passwordArray.push(upperCaseCharacters[getRandomInt(upperCaseCharacters.length)]);
     }
     // adds lowercase array to array of arrays
     if (wantsLower) {
       arrayCharacterArray.push(lowerCaseCharacters);
+      // Adds one lower case character to the array (if selected)
+      passwordArray.push(lowerCaseCharacters[getRandomInt(lowerCaseCharacters.length)]);
     }
     // adds symbol array to array of arrays
     if (wantsSymbol) {
       arrayCharacterArray.push(symbolCharacters);
+      // Adds one symbol to the array (if selected)
+      passwordArray.push(symbolCharacters[getRandomInt(symbolCharacters.length)]);
     }
     // adds number array to array of arrays
     if (wantsNumber) {
       arrayCharacterArray.push(numberCharacters);
+      // Adds one number to the array (if selected)
+      passwordArray.push(numberCharacters[getRandomInt(numberCharacters.length)]);
     }
+    // saves current length of password array, this starting set of values guarantees at least one of each selected character
+    var startingPasswordArray = passwordArray.length;
     // Iterates through index of password array, first selecting which array to pull from, then selecting which index of that array to use as the value
-    for (var i = 0; i < numCharacters; i++) {
+    // Goes until it fills the length requested by the user
+    for (var i = 0; i < (numCharacters - startingPasswordArray); i++) {
       var small = getRandomInt(arrayCharacterArray.length);
       var large = getRandomInt(arrayCharacterArray[small].length);
       passwordArray.push(arrayCharacterArray[small][large]);
+    }
+    // ------------------------------------------------------------------------------------
+
+    // ------------------------------------------------------------------------------------
+    // The Fisher Yates Method of randomly sorting an array
+    // Randomizes the array sort so the guaranteed characters are not necessarily always at the front
+    for (let i = passwordArray.length -1; i > 0; i--) {
+      let j = Math.floor(Math.random() * i)
+      let k = passwordArray[i]
+      passwordArray[i] = passwordArray[j]
+      passwordArray[j] = k
     }
     // ------------------------------------------------------------------------------------
 
@@ -146,10 +169,10 @@ function writePassword() {
       else if (str[i] >= "0" && str[i] <= "9") number++;
       else special++;
     }
-    console.log("Upper case letters: " + upper);
-    console.log("Lower case letters : " + lower);
-    console.log("Number : " + number);
-    console.log("Special characters : " + special);
+    // console.log("Upper case letters: " + upper);
+    // console.log("Lower case letters : " + lower);
+    // console.log("Number : " + number);
+    // console.log("Special characters : " + special);
   }
 
   // Driver function
