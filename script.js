@@ -10,9 +10,9 @@
 // WHEN I answer each prompt
 // X THEN my input should be validated and at least one character type should be selected
 // WHEN all prompts are answered
-// THEN a password is generated that matches the selected criteria
+// X THEN a password is generated that matches the selected criteria
 // WHEN the password is generated
-// THEN the password is either displayed in an alert or written to the page
+// X THEN the password is either displayed in an alert or written to the page
 
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
@@ -20,7 +20,7 @@ var generateBtn = document.querySelector("#generate");
 // Arrays
 var upperCaseCharacters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 var lowerCaseCharacters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-var symbolCharacters = ["!", "@", "#", "$", "%", "^", "&"];
+var symbolCharacters = ["!", '"', "@", "#", "$", "%", "^", "&", "'", "(", ")", "*", "+", "=", ",", "-", ".", "/", ":", ";", "<", ">", "[", "]", "?", "_", "`", "{", "}", "|", "~"];
 var numberCharacters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
 // generatePassword function
@@ -31,8 +31,13 @@ function generatePassword(){
   var wantsSymbol;
   var wantsNumber;
 
+  // Get random int (for array index)
+  function getRandomInt(num){
+    return Math.floor(Math.random() * num);
+  }
+
   // checking first input
-  var numCharacters = prompt("How long do you want your password?", "(8-128 characters)");
+  var numCharacters = prompt("How long do you want your password?", "8-128");
   if (numCharacters != null) {
     var numCharacters = parseInt(numCharacters, 10);
     if (isNaN(numCharacters)) {
@@ -60,16 +65,36 @@ function generatePassword(){
 
   if (wantsUpper || wantsLower || wantsSymbol || wantsNumber) {
     // generate Password
+    // putting all selected characters into one array
+    var totalCharacterSet = [];
+
+    var passwordArray = [];
+
+    // Adds uppercase to total array if selected
+    if (wantsUpper) {
+      totalCharacterSet = totalCharacterSet.concat(upperCaseCharacters);
+    }
+    // Adds lowercase to total array if selected
+    if (wantsLower) {
+      totalCharacterSet = totalCharacterSet.concat(lowerCaseCharacters);
+    }
+    // Adds symbols to total array if selected
+    if (wantsSymbol) {
+      totalCharacterSet = totalCharacterSet.concat(symbolCharacters);
+    }
+    // Adds numbers to total array if selected
+    if (wantsNumber) {
+      totalCharacterSet = totalCharacterSet.concat(numberCharacters);
+    }
+
+    for (var i = 0; i < numCharacters; i++){
+      passwordArray.push(totalCharacterSet[getRandomInt(totalCharacterSet.length)]);
+    }
+
+    return passwordArray.join("");
   } else {
     confirm("You must select at least one type of character.");
-    return;
   }
-
-  // Checking prompt output
-  console.log(wantsUpper);
-  console.log(wantsLower);
-  console.log(wantsSymbol);
-  console.log(wantsNumber);
 
   return;
 }
